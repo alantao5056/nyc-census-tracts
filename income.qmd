@@ -1,0 +1,35 @@
+---
+title: "Income Distribution"
+author: "Alan Tao"
+format: html
+---
+
+```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: setup
+library(tidyverse)
+library(ggbeeswarm)
+```
+
+```{r}
+#| label: plot
+#| echo: false
+#| message: false
+
+nyc <- read_csv("data/nyc_tracts.csv", show_col_types = FALSE)
+nyc |>
+  drop_na() |>
+  ggplot(aes(x = med_income, y = race)) +
+  geom_quasirandom(aes(color = med_income), alpha = 0.6) +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  scale_color_viridis_c() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(title = "Household income distribution by largest racial/ethnic group",
+       subtitle = "Census tracts, New York City",
+       x = "Median household income",
+       y = "Largest group in Census tract")
+```
+
